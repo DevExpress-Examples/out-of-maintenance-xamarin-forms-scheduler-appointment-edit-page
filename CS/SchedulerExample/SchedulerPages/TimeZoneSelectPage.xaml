@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:dxschi="clr-namespace:DevExpress.XamarinForms.Scheduler.Internal;assembly=DevExpress.XamarinForms.Scheduler"
+    xmlns:dxscht="clr-namespace:DevExpress.XamarinForms.Scheduler.Themes;assembly=DevExpress.XamarinForms.Scheduler"
+    x:Class="SchedulerExample.AppointmentPages.CustomTimeZoneSelectPage"
+    BackgroundColor="{DynamicResource SchedulerBackgroundColor}">
+    <NavigationPage.TitleView>
+        <dxschi:EntryEx 
+            x:Name="searchBar"
+            Placeholder="Time Zone"
+            TextChanged="OnSearchBarTextChanged"
+            TextColor="{DynamicResource SchedulerEditPageHeaderTextColor}"
+            FontAttributes="Bold"
+            PlaceholderColor="{DynamicResource SchedulerEditPageHeaderPlaceholderColor}"
+            BackgroundColor="Transparent"
+            BorderColor="Transparent"
+            HighlightedBorderColor="Transparent"
+            HighlightedBackgroundColor="Transparent"
+            CursorColor="{StaticResource SchedulerEditPageAccentColor}">
+            <Entry.Margin>
+                <OnPlatform x:TypeArguments="Thickness" Android="0,0,15,0" iOS="0"/>
+            </Entry.Margin>
+        </dxschi:EntryEx>
+    </NavigationPage.TitleView>
+   
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <dxscht:CommonEditorStyles />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        
+        <Style x:Key="TimeZone" TargetType="dxschi:TimeZoneView">
+            <Setter Property="DisplayNameTextColor" Value="{DynamicResource SchedulerEditPagePrimaryTextColor}"/>
+            <Setter Property="UtcOffsetTextColor" Value="{DynamicResource SchedulerEditPageSecondaryTextColor}"/>
+            <Setter Property="AccentColor" Value="{DynamicResource SchedulerEditPageAccentColor}"/>
+            <Setter Property="SeparatorColor" Value="{DynamicResource SchedulerEditPageSeparatorColor}"/>
+        </Style>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ListView x:Name="timeZoneList"
+                  ItemsSource="{Binding ActualTimeZoneInfos}"
+                  SelectionMode="None"
+                  HasUnevenRows="true"
+                  VerticalOptions="FillAndExpand"
+                  VerticalScrollBarVisibility="Never"
+                  SeparatorVisibility="None"
+                  ItemTapped="TimeZoneTapped"
+                  BackgroundColor="Transparent">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <dxschi:TimeZoneView Style="{StaticResource TimeZone}"/>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dxschi="clr-namespace:DevExpress.XamarinForms.Scheduler.Internal;assembly=DevExpress.XamarinForms.Scheduler"
+    xmlns:dxscht="clr-namespace:DevExpress.XamarinForms.Scheduler.Themes;assembly=DevExpress.XamarinForms.Scheduler"
+    x:Class="SchedulerExample.AppointmentPages.CustomReminderAddPage"
+    Title="{Binding Title}"
+    BackgroundColor="{DynamicResource SchedulerBackgroundColor}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <dxscht:CommonEditorStyles/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        <Style x:Key="ItemStyleBase" TargetType="dxschi:RippleStackLayout">
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Spacing" Value="0"/>
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="HeightRequest" Value="{x:Static dxschi:EditPageConstants.LineHeight}"/>
+            <Setter Property="BackgroundColor" Value="{DynamicResource SchedulerBackgroundColor}"/>
+            <Setter Property="HighlightedBackgroundColor" Value="{DynamicResource SchedulerHighlightedBackgroundColor}"/>
+        </Style>
+        <Style x:Key="ItemLabelStyle" TargetType="Label">
+            <Setter Property="HorizontalOptions" Value="Start"/>
+            <Setter Property="VerticalOptions" Value="Center"/>
+            <Setter Property="FontSize" Value="Medium"/>
+            <Setter Property="BackgroundColor" Value="Transparent"/>
+            <Setter Property="TextColor" Value="{DynamicResource SchedulerEditPagePrimaryTextColor}"/>
+            <Setter Property="Margin" Value="24,0"/>
+        </Style>
+        <Style x:Key="ItemStyle" TargetType="dxschi:RippleStackLayout" BasedOn="{StaticResource ItemStyleBase}"/>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout x:Name="root" Style="{StaticResource RootContainerStyle}">
+                <dxschi:InlineItemsView ItemsSource="{Binding Reminders}"
+                                       Style="{StaticResource ContainerStyleBase}">
+                    <dxschi:InlineItemsView.ItemTemplate>
+                        <DataTemplate>
+                            <dxschi:RippleStackLayout Tapped="OnReminderTapped"
+                                                     Style="{DynamicResource ItemStyle}">
+                                <Label Text="{Binding TimeBeforeStartText}"
+                                       Style="{StaticResource ItemLabelStyle}"/>
+                            </dxschi:RippleStackLayout>
+                        </DataTemplate>
+                    </dxschi:InlineItemsView.ItemTemplate>
+                </dxschi:InlineItemsView>
+                <dxschi:RippleStackLayout Tapped="OnCustomReminderTapped"
+                                         Style="{DynamicResource ItemStyle}">
+                    <Label Text="Custom..."
+                           Style="{StaticResource ItemLabelStyle}"/>
+                </dxschi:RippleStackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

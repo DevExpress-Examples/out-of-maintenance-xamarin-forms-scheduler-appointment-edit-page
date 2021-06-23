@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dxschi="clr-namespace:DevExpress.XamarinForms.Scheduler.Internal;assembly=DevExpress.XamarinForms.Scheduler"
+    xmlns:dxscht="clr-namespace:DevExpress.XamarinForms.Scheduler.Themes;assembly=DevExpress.XamarinForms.Scheduler"
+    x:Class="SchedulerExample.AppointmentPages.CustomAppointmentEditPage"
+    Title="{Binding Title}"
+    BackgroundColor="{DynamicResource SchedulerBackgroundColor}">
+    
+    <ContentPage.ToolbarItems>
+         <ToolbarItem
+             x:Name="saveToolbarItem"
+             Clicked="OnSaveTapped">
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <dxscht:CommonEditorStyles />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <Style x:Key="FormItemStyle" TargetType="dxschi:RippleStackLayout" BasedOn="{StaticResource FormItemStyleBase}"/>
+            <Style x:Key="FormDateTimeItemStyle" TargetType="StackLayout" BasedOn="{StaticResource FormDateTimeItemStyleBase}"/>
+            <Style x:Key="Wrapper" TargetType="Frame" BasedOn="{StaticResource WrapperBase}"/>
+            
+            <dxschi:BoolToThicknessConverter x:Key="AddReminderButtonTextMarginSelector" 
+                                            TrueThickness="60,0,0,0"
+                                            FalseThickness="12,0,0,0"/>
+            <dxschi:BoolToStringConverter x:Key="AddReminderButtonTextSelector"
+                                         TrueString="Add another reminder"
+                                         FalseString="Add a reminder"/>
+            <dxschi:BoolToThicknessConverter x:Key="ReminderLabelMarginSelector" 
+                                            TrueThickness="12,0,0,0"
+                                            FalseThickness="60,0,0,0"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout x:Name="root" Style="{StaticResource RootContainerStyle}">
+                <!-- Name -->
+                <dxschi:RippleStackLayout Style="{DynamicResource FormItemStyle}"
+                                         Tapped="OnCaptionTapped"
+                                         AllowHighlightBackground="false">
+                    <dxschi:IconImage Source="event_name.png"
+                           Style="{StaticResource FormItemIcon}"/>
+                    <dxschi:EntryEx 
+                        x:Name="eventNameEntry"
+                        Text="{Binding Subject}"
+                        Placeholder="Event name"
+                        Style="{StaticResource FormItemPrimaryContent-Entry}"/>
+                </dxschi:RippleStackLayout>
+                <Frame Style="{DynamicResource Wrapper}">
+                    <BoxView Style="{StaticResource FormSeparator}"/>
+                </Frame>
+                
+                <!-- Label -->
+                <dxschi:RippleStackLayout Style="{DynamicResource FormItemStyle}" 
+                                         Tapped="OnLabelTapped">
+                    <dxschi:IconImage Source="palette.png"
+                           Style="{StaticResource FormItemIcon}"/>
+                    <Label Text="Label"
+                           Style="{StaticResource FormItemPrimaryContent-Label}"/>
+                    <Label Text="{Binding Label.Caption}"
+                           Style="{StaticResource FormItemColorLabel}"/>
+                    <BoxView Color="{Binding Label.Color}"
+                             Style="{StaticResource FormItemColorIndicator}"/>
+                </dxschi:RippleStackLayout>
+                <!-- Status -->
+                <dxschi:RippleStackLayout Style="{DynamicResource FormItemStyle}"
+                                         Tapped="OnStatusTapped">
+                    <Label Text="Status"
+                           Style="{StaticResource FormItemPrimaryContent-Label_NoIcon}"/>
+                    <Label Text="{Binding Status.Caption}"
+                           Style="{StaticResource FormItemColorLabel}"/>
+                    <BoxView Color="{Binding Status.Color}"
+                             Style="{StaticResource FormItemColorIndicator}"/>
+                </dxschi:RippleStackLayout>
+                <Frame Style="{DynamicResource Wrapper}">
+                    <BoxView  Style="{StaticResource FormSeparator}"/>
+                </Frame>
+                
+                <!-- AllDay -->
+                <dxschi:RippleStackLayout 
+                    Style="{DynamicResource FormItemStyle}"
+                    Tapped="OnAllDayTapped">
+                    <dxschi:IconImage Source="time.png"
+                           Style="{StaticResource FormItemIcon}"/>
+                    <Label Text="All day"
+                           Style="{StaticResource FormItemPrimaryContent-Label}"/>
+                    <dxschi:DXSwitch x:Name="allDaySwitch"
+                                    OnColor="{DynamicResource SchedulerEditPageAccentColor}"
+                                    IsToggled="{Binding AllDay, Mode=TwoWay}"
+                                    BackgroundColor="Transparent"
+                                    Margin="0,0,24,0">
+                        <dxschi:DXSwitch.VerticalOptions>
+                            <OnPlatform Android="FillAndExpand" iOS="Center" x:TypeArguments="LayoutOptions"/>
+                        </dxschi:DXSwitch.VerticalOptions>
+                    </dxschi:DXSwitch>
+                </dxschi:RippleStackLayout>
+                <!-- Start -->
+                <StackLayout Style="{DynamicResource FormDateTimeItemStyle}">
+                    <dxschi:DatePickerEx Date="{Binding StartDate}"
+                                        Style="{StaticResource FormItemDatePicker}"/>
+                    <dxschi:TimePickerEx Time="{Binding StartTime}"
+                                        IsVisible="{Binding AllDay, Converter={dxschi:InverseBoolConverter}}"
+                                        Style="{StaticResource FormItemTimePicker}"/>
+                </StackLayout>
+                <!-- End -->
+                <StackLayout Style="{DynamicResource FormDateTimeItemStyle}">
+                    <dxschi:DatePickerEx Date="{Binding EndDate}"
+                                        Style="{StaticResource FormItemDatePicker}"/>
+                    <dxschi:TimePickerEx Time="{Binding EndTime}"
+                                        IsVisible="{Binding AllDay, Converter={dxschi:InverseBoolConverter}}"
+                                        Style="{StaticResource FormItemTimePicker}"/>
+                </StackLayout>
+                <!-- TimeZone -->
+                <dxschi:RippleStackLayout 
+                    Style="{DynamicResource FormItemStyle}"
+                    IsVisible="{Binding ActualAllowTimeZone}"
+                    Tapped="OnTimeZoneTapped">
+                    <dxschi:IconImage Source="timezone.png"
+                           Style="{StaticResource FormItemIcon}"/>
+                    <Label Text="{Binding TimeZone.DisplayName}"
+                           Style="{StaticResource FormItemPrimaryContent-Label}"/>
+                </dxschi:RippleStackLayout>
+                <Frame Style="{DynamicResource Wrapper}">
+                    <BoxView  Style="{StaticResource FormSeparator}"/>
+                </Frame>
+                
+                <!-- Reminders -->
+                <dxschi:InlineItemsView x:Name="reminderContainer"
+                                       Margin="0" Padding="0" Spacing="0"
+                                       Orientation="Vertical"
+                                       ItemsSource="{Binding Reminders}"
+                                       IsVisible="{Binding AllowReminders}">
+                    <dxschi:InlineItemsView.ItemTemplate>
+                        <DataTemplate>
+                            <dxschi:RippleStackLayout 
+                                Style="{DynamicResource FormItemStyle}" 
+                                AllowHighlightBackground="false">
+                                <dxschi:IconImage Source="notification.png"
+                                       Style="{StaticResource FormItemIcon}"
+                                       IsVisible="{Binding IsFirst}"/>
+                                <Label Text="{Binding TimeBeforeStartText}"
+                                       Style="{StaticResource FormItemPrimaryContent-Label}"
+                                       Margin="{Binding IsFirst, Converter={StaticResource ReminderLabelMarginSelector}}"/>
+                                <dxschi:RippleStackLayout Padding="0,0" 
+                                                         Margin="0"
+                                                         BackgroundColor="{DynamicResource SchedulerBackgroundColor}"
+                                                         HighlightedBackgroundColor="{DynamicResource SchedulerHighlightedBackgroundColor}"
+                                                         Orientation="Vertical"
+                                                         HorizontalOptions="EndAndExpand"
+                                                         VerticalOptions="FillAndExpand"
+                                                         Tapped="OnRemoveReminderTapped">
+                                    <dxschi:IconImage Source="close.png"
+                                           Margin="24,12"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="Center"
+                                           TintColor="{DynamicResource SchedulerEditPageSecondaryIconColor}"/>
+                                </dxschi:RippleStackLayout>
+                            </dxschi:RippleStackLayout>
+                        </DataTemplate>
+                    </dxschi:InlineItemsView.ItemTemplate>
+                </dxschi:InlineItemsView>
+                <dxschi:RippleStackLayout Style="{DynamicResource FormItemStyle}"
+                                         Tapped="OnAddReminderTapped"
+                                         IsVisible="{Binding AllowReminders}">
+                    <dxschi:IconImage Source="notification.png"
+                           Style="{StaticResource FormItemIcon}"
+                           IsVisible="{Binding HasReminders, Converter={dxschi:InverseBoolConverter}}"/>
+                    <Label Text="{Binding HasReminders, Converter={StaticResource AddReminderButtonTextSelector}}"
+                           Style="{StaticResource FormItemPrimaryContent-Label}"
+                           Margin="{Binding HasReminders, Converter={StaticResource AddReminderButtonTextMarginSelector}}"/>
+                </dxschi:RippleStackLayout>
+                <Frame 
+                    Style="{DynamicResource Wrapper}" 
+                    IsVisible="{Binding AllowReminders}">
+                    <BoxView Style="{StaticResource FormSeparator}"/>
+                 </Frame>
+                
+                <!-- Recurrence -->
+                <dxschi:RippleStackLayout 
+                    Style="{DynamicResource FormItemStyle}"
+                    IsVisible="{Binding AllowRecurrence}"
+                    Tapped="OnRepeatTapped">
+                    <dxschi:IconImage Source="repeat.png"
+                           Style="{StaticResource FormItemIcon}"/>
+                    <Label Text="Repeat"
+                           Style="{StaticResource FormItemPrimaryContent-Label}"/>
+                    <Label Text="{Binding Recurrence.Name}"
+                           TextColor="{DynamicResource SchedulerEditPagePrimaryTextColor}"
+                           HorizontalOptions="End" 
+                           VerticalOptions="Center"
+                           BackgroundColor="Transparent"
+                           Margin="0,0,24,0"/>
+                </dxschi:RippleStackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
