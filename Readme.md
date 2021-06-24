@@ -2,8 +2,31 @@
 
 The [DevExpress Xamarin.Forms Scheduler](https://docs.devexpress.com/MobileControls/400676/xamarin-forms/scheduler/index) has a set of built-in pages that allow users to schedule new events or edit existing appointments. 
 
-This example’s [SchedulerPages](./CS/SchedulerExample/SchedulerPages) folder contains the source code of the [AppointmentDetailPage](https://docs.devexpress.com/MobileControls/DevExpress.XamarinForms.Scheduler.AppointmentDetailPage) and [AppointmentEditPage](https://docs.devexpress.com/MobileControls/DevExpress.XamarinForms.Scheduler.AppointmentEditPage) pages, including all pages invoked from these pages.  You can [reuse](#reuse) this code in your projects to customize the scheduler’s default edit-appointment pages.
+This example’s [SchedulerPages](./CS/SchedulerExample/SchedulerPages) folder contains the source code of the [AppointmentDetailPage](https://docs.devexpress.com/MobileControls/DevExpress.XamarinForms.Scheduler.AppointmentDetailPage) and [AppointmentEditPage](https://docs.devexpress.com/MobileControls/DevExpress.XamarinForms.Scheduler.AppointmentEditPage) pages, including all pages invoked from these pages. You can reuse this code in your projects to customize the scheduler’s default edit-appointment [pages](#pages):
+1. Copy the [SchedulerPages](./CS/SchedulerExample/SchedulerPages) folder to your project and rename namespaces according to your project name.
+2. Modify the markup and code of pages you want to customize.
+3. Specify a gesture that should invoke the **Edit Appointment** (or **Appointment Details**) page.
 
+This example demonstrates how to display the **Edit Appointment** page when a user taps an appointment or empty cell within the day view.
+
+1. [MainPage.xaml](./CS/SchedulerExample/MainPage.xaml)  
+  Subscribe to the day view’s [Tap](https://docs.devexpress.com/MobileControls/DevExpress.XamarinForms.Scheduler.ViewBase.Tap) event.
+2. [MainPage.xaml.cs](./CS/SchedulerExample/MainPage.xaml.cs)  
+  In the event handler, call the [Navigation.PushAsync](https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.inavigation.pushasync?view=xamarin-forms) method with a **CustomAppointmentEditPage** instance passed as a parameter. Use the following constructors:
+    - *AppointmentEditPage(DateTime, DateTime, Boolean, SchedulerDataStorage, Boolean)* - accepts the scheduler storage and an initial time interval if you create a new appointment.
+    - *AppointmentEditPage(AppointmentItem, SchedulerDataStorage, Boolean)* - accepts the scheduler storage and an appointment if you edit an existing appointment.
+3. [App.xaml.cs](./CS/SchedulerExample/App.xaml.cs)  
+  Assign a [NavigationPage](https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.navigationpage?view=xamarin-forms) instance to the [Application.MainPage](https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.application.mainpage?view=xamarin-forms) property and add the **MainPage** content page to the navigation stack (the application’s root page).
+
+To run the application:
+1. [Obtain your NuGet feed URL](http://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url).
+2. Register the DevExpress NuGet feed as a package source.
+3. Restore all NuGet packages for the solution.
+
+---
+
+Edit-appointment pages: 
+<a name="pages"></a>
 - **CustomAppointmentDetailPage**  
 
   <img src="./img/AppointmentDetailPage.png"/>
@@ -64,26 +87,4 @@ This example’s [SchedulerPages](./CS/SchedulerExample/SchedulerPages) folder c
   [SchedulerPages/ReminderEditPage.xaml.cs](./CS/SchedulerExample/SchedulerPages/ReminderEditPage.xaml.cs)  
   [SchedulerPages/ViewModels/ReminderEditViewModel.cs](./CS/SchedulerExample/SchedulerPages/ViewModels/ReminderEditViewModel.cs)
 
----
 
-<a name="reuse"></a>To customize edit-appointment pages of a scheduler view that you use in your application, follow the steps below:
-
-1. Copy the [SchedulerPages](./CS/SchedulerExample/SchedulerPages) folder to your project and rename namespaces according to your project name.
-2. Modify the markup and code of pages you want to customize.
-3. Specify a gesture that should invoke the **Edit Appointment** (or **Appointment Details**) page.
-
-This example demonstrates how to display the **Edit Appointment** page when a user taps an appointment or empty cell within the day view.
-
-1. [MainPage.xaml](./CS/SchedulerExample/MainPage.xaml)  
-  Subscribe to the day view’s [Tap](https://docs.devexpress.com/MobileControls/DevExpress.XamarinForms.Scheduler.ViewBase.Tap) event.
-2. [MainPage.xaml.cs](./CS/SchedulerExample/MainPage.xaml.cs)  
-  In the event handler, call the [Navigation.PushAsync](https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.inavigation.pushasync?view=xamarin-forms) method with a **CustomAppointmentEditPage** instance passed as a parameter. Use the following constructors:
-    - *AppointmentEditPage(DateTime, DateTime, Boolean, SchedulerDataStorage, Boolean)* - accepts the scheduler storage and an initial time interval if you create a new appointment.
-    - *AppointmentEditPage(AppointmentItem, SchedulerDataStorage, Boolean)* - accepts the scheduler storage and an appointment if you edit an existing appointment.
-3. [App.xaml.cs](./CS/SchedulerExample/App.xaml.cs)  
-  Assign a [NavigationPage](https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.navigationpage?view=xamarin-forms) instance to the [Application.MainPage](https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.application.mainpage?view=xamarin-forms) property and add the **MainPage** content page to the navigation stack (the application’s root page).
-
-To run the application:
-1. [Obtain your NuGet feed URL](http://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url).
-2. Register the DevExpress NuGet feed as a package source.
-3. Restore all NuGet packages for the solution.
