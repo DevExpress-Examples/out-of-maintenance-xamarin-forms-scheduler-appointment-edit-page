@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using DevExpress.XamarinForms.Core.Themes;
 using DevExpress.XamarinForms.Scheduler;
 using DevExpress.XamarinForms.Scheduler.Internal;
 using DevExpress.XamarinForms.Scheduler.Themes;
-using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using XFPage = Xamarin.Forms.Page;
 
 namespace SchedulerExample.AppointmentPages {
@@ -126,14 +126,13 @@ namespace SchedulerExample.AppointmentPages {
         }
 
         async void OnRemoveReminderTapped(object sender, System.EventArgs e) {
-            if (!(sender is RippleStackLayout btn))
+            if (!(sender is StackLayout btn))
                 return;
             if (!(btn.Parent is View item))
                 return;
             if (!(item.BindingContext is ReminderViewModel reminder))
                 return;
-
-            await AnimateItemRemoving(item);
+            
             viewModel.Reminders.Remove(reminder);
         }
 
@@ -165,22 +164,6 @@ namespace SchedulerExample.AppointmentPages {
             saveToolbarItem.Icon = new FileImageSource { File = SaveIconName + actualPostfix + FileResolution };
         }
 
-        async Task AnimateItemRemoving(View item) {
-            reminderContainer.HeightRequest = reminderContainer.Height;
-            int index = reminderContainer.Children.IndexOf(item);
-            if (index < 0)
-                return;
-            int viewsToAnimateNumber = reminderContainer.Children.Count - index - 1;
-            Task[] animationTasks = new Task[viewsToAnimateNumber + 2];
-            animationTasks[0] = item.FadeTo(0, EditPageConstants.AnimationDuration, Easing.CubicIn);
-            for (int i = index + 1; i < reminderContainer.Children.Count; ++i) {
-                var child = reminderContainer.Children[i];
-                animationTasks[i - index] = child.TranslateTo(0, -EditPageConstants.LineHeight - reminderContainer.Spacing, EditPageConstants.AnimationDuration, Easing.CubicInOut);
-            }
-            animationTasks[viewsToAnimateNumber + 1] = AnimateHeight(reminderContainer, reminderContainer.Height, reminderContainer.Height - EditPageConstants.LineHeight - reminderContainer.Spacing, EditPageConstants.AnimationDuration, Easing.CubicInOut);
-            await Task.WhenAll(animationTasks);
-        }
-
         Task AnimateHeight(View container, double oldValue, double newValue, uint length, Easing easing) {
             TaskCompletionSource<bool> completionSource = new TaskCompletionSource<bool>();
             Animation animation = new Animation(v => container.HeightRequest = v, oldValue, newValue);
@@ -190,7 +173,7 @@ namespace SchedulerExample.AppointmentPages {
 
         void ApplySafeInsets() {
             var safeInsets = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-            this.RecreateStyleWithHorizontalInsets("FormItemStyle", "FormItemStyleBase", typeof(RippleStackLayout), safeInsets);
+            this.RecreateStyleWithHorizontalInsets("FormItemStyle", "FormItemStyleBase", typeof(Grid), safeInsets);
             this.RecreateStyleWithHorizontalInsets("FormDateTimeItemStyle", "FormDateTimeItemStyleBase", typeof(StackLayout), safeInsets);
             this.RecreateStyleWithHorizontalInsets("Wrapper", "WrapperBase", typeof(Frame), safeInsets);
             this.root.Margin = new Thickness(0, safeInsets.Top, 0, safeInsets.Bottom);

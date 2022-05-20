@@ -50,7 +50,7 @@ namespace SchedulerExample.AppointmentPages {
 
         void ApplySafeInsets() {
             var safeInsets = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-            this.RecreateStyleWithHorizontalInsets("TimeUnitItemStyle", "TimeUnitItemStyleBase", typeof(RippleStackLayout), safeInsets);
+            this.RecreateStyleWithHorizontalInsets("TimeUnitItemStyle", "TimeUnitItemStyleBase", typeof(Grid), safeInsets);
             this.RecreateStyleWithHorizontalInsets("UnitNumberWrapperStyle", "UnitNumberWrapperStyleBase", typeof(Frame), safeInsets);
             this.root.Margin = new Thickness(0, safeInsets.Top, 0, safeInsets.Bottom);
         }

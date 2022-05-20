@@ -4,6 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:dxschi="clr-namespace:DevExpress.XamarinForms.Scheduler.Internal;assembly=DevExpress.XamarinForms.Scheduler"
     xmlns:dxscht="clr-namespace:DevExpress.XamarinForms.Scheduler.Themes;assembly=DevExpress.XamarinForms.Scheduler"
+    xmlns:dxe="clr-namespace:DevExpress.XamarinForms.Editors;assembly=DevExpress.XamarinForms.Editors"
+    xmlns:dxcv="clr-namespace:DevExpress.XamarinForms.CollectionView;assembly=DevExpress.XamarinForms.CollectionView"
     x:Class="SchedulerExample.AppointmentPages.CustomReminderEditPage"
     Title="{Binding Title}"
     BackgroundColor="{DynamicResource SchedulerBackgroundColor}">
@@ -16,19 +18,17 @@
                 <dxscht:CommonEditorStyles/>
             </ResourceDictionary.MergedDictionaries>
             
-            <Style x:Key="TimeUnitItemStyleBase" TargetType="dxschi:RippleStackLayout">
+            <Style x:Key="TimeUnitItemStyleBase" TargetType="Grid">
                 <Setter Property="HeightRequest" Value="{x:Static dxschi:EditPageConstants.LineHeight}"/>
                 <Setter Property="BackgroundColor" Value="{DynamicResource SchedulerBackgroundColor}"/>
-                <Setter Property="HighlightedBackgroundColor" Value="{DynamicResource SchedulerHighlightedBackgroundColor}"/>
                 <Setter Property="Margin" Value="0"/>
                 <Setter Property="Padding" Value="0"/>
-                <Setter Property="Orientation" Value="Horizontal"/>
             </Style>
             <Style x:Key="UnitNumberWrapperStyleBase" TargetType="Frame" BasedOn="{StaticResource WrapperBase}">
                 <Setter Property="Margin" Value="0,0,0,8"/>
             </Style>
             
-            <Style x:Key="TimeUnitItemStyle" TargetType="dxschi:RippleStackLayout" BasedOn="{StaticResource TimeUnitItemStyleBase}"/>
+            <Style x:Key="TimeUnitItemStyle" TargetType="Grid" BasedOn="{StaticResource TimeUnitItemStyleBase}"/>
             <Style x:Key="UnitNumberWrapperStyle" TargetType="Frame" BasedOn="{StaticResource UnitNumberWrapperStyleBase}"/>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -39,31 +39,36 @@
                 Style="{StaticResource RootContainerStyle}">
                 
                 <Frame Style="{DynamicResource UnitNumberWrapperStyle}">
-                    <dxschi:EntryEx 
-                        Text="{Binding UnitNumber}" 
-                        Margin="24,0" FontSize="Medium" Keyboard="Numeric"
+                    <dxe:TextEdit 
+                        Text="{Binding UnitNumber}"
+                        Margin="24,0" TextFontSize="Medium" Keyboard="Numeric"
                         TextColor="{DynamicResource SchedulerEditPagePrimaryTextColor}"
                         PlaceholderColor="{DynamicResource SchedulerEditPageSecondaryTextColor}"/>
                 </Frame>                
                 
-                <dxschi:InlineItemsView 
-                    ItemsSource="{Binding TimeSpanBuilders}" 
-                    Style="{StaticResource ContainerStyleBase}" >
-                    <dxschi:InlineItemsView.ItemTemplate>
+                <dxcv:DXCollectionView ReduceSizeToContent="True" 
+                    ItemsSource="{Binding TimeSpanBuilders}">
+                    <dxcv:DXCollectionView.ItemTemplate>
                         <DataTemplate>
-                            <dxschi:RippleStackLayout Tapped="OnBuilderTapped" Style="{DynamicResource TimeUnitItemStyle}">
-                                <dxschi:RadioItem 
-                                    IsSelected="{Binding IsSelected}" VerticalOptions="Center"
-                                    Margin="24,0,0,0"/>
+                            <Grid Style="{DynamicResource TimeUnitItemStyle}"
+                                  ColumnDefinitions="Auto,*">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnBuilderTapped"/>
+                                </Grid.GestureRecognizers>
+                                <dxe:CheckEdit
+                                    IsChecked="{Binding IsSelected}" VerticalOptions="Center"
+                                    Margin="24,0,0,0"
+                                    Grid.Column="0"/>
                                 <Label Text="{Binding ActualDisplayName}"
                                        VerticalOptions="Center"
                                        Margin="12,0,0,0"
+                                       Grid.Column="1"
                                        TextColor="{DynamicResource SchedulerEditPagePrimaryTextColor}"
                                        BackgroundColor="Transparent"/>
-                            </dxschi:RippleStackLayout>
+                            </Grid>
                         </DataTemplate>
-                    </dxschi:InlineItemsView.ItemTemplate>
-                </dxschi:InlineItemsView>
+                    </dxcv:DXCollectionView.ItemTemplate>
+                </dxcv:DXCollectionView>
                 
             </StackLayout>
         </ScrollView>

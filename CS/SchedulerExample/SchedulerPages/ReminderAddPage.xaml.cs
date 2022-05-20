@@ -59,7 +59,7 @@ namespace SchedulerExample.AppointmentPages {
 
         void ApplySafeInsets() {
             var safeInsets = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-            this.RecreateStyleWithHorizontalInsets("ItemStyle", "ItemStyleBase", typeof(RippleStackLayout), safeInsets);
+            this.RecreateStyleWithHorizontalInsets("ItemStyle", "ItemStyleBase", typeof(Grid), safeInsets);
             this.root.Margin = new Thickness(0, safeInsets.Top, 0, safeInsets.Bottom);
         }
     }

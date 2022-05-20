@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:dxschi="clr-namespace:DevExpress.XamarinForms.Scheduler.Internal;assembly=DevExpress.XamarinForms.Scheduler"
     xmlns:dxscht="clr-namespace:DevExpress.XamarinForms.Scheduler.Themes;assembly=DevExpress.XamarinForms.Scheduler"
+    xmlns:dxcv="clr-namespace:DevExpress.XamarinForms.CollectionView;assembly=DevExpress.XamarinForms.CollectionView"
     x:Class="SchedulerExample.AppointmentPages.CustomAppointmentDetailPage"
     BackgroundColor="{DynamicResource SchedulerBackgroundColor}">
     <ContentPage.Resources>
@@ -95,10 +96,9 @@
                 <Setter Property="Padding" Value="0" />
                 <Setter Property="Spacing" Value="0" />
             </Style>        
-            <Style x:Key="RemindersContainer" TargetType="StackLayout">
+            <Style x:Key="RemindersContainer" TargetType="dxcv:DXCollectionView">
                 <Setter Property="Margin" Value="0" />
-                <Setter Property="Padding" Value="0" />
-                <Setter Property="Spacing" Value="0" />
+                <Setter Property="ItemSpacing" Value="0" />
                 <Setter Property="Orientation" Value="Vertical"/>
             </Style>
             
@@ -156,11 +156,11 @@
                         Style="{StaticResource ItemContent-Label}" />
                 </StackLayout>
                 
-                <dxschi:InlineItemsView
+                <dxcv:DXCollectionView
                     ItemsSource="{Binding Reminders}"
                     IsVisible="{Binding HasReminders}"
                     Style="{StaticResource RemindersContainer}">
-                    <dxschi:InlineItemsView.ItemTemplate>
+                    <dxcv:DXCollectionView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout Style="{StaticResource ItemContainer}">
                                 <dxschi:IconImage
@@ -173,8 +173,8 @@
                                     Margin="{Binding IsFirst, Converter={StaticResource BoolToThicknessConverter}}"/>
                             </StackLayout>
                         </DataTemplate>
-                    </dxschi:InlineItemsView.ItemTemplate>
-                </dxschi:InlineItemsView>
+                    </dxcv:DXCollectionView.ItemTemplate>
+                </dxcv:DXCollectionView>
                 
                 <StackLayout
                     Style="{StaticResource ItemContainer}"
@@ -197,7 +197,7 @@
                         Text="{Binding FormattedStatusCaption}"
                         Style="{StaticResource ItemContent-Label}" />
                 </StackLayout>
-                
+
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

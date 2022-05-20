@@ -1,12 +1,13 @@
 ﻿using DevExpress.XamarinForms.Scheduler;
 using Xamarin.Forms;
+using DevExpress.XamarinForms.CollectionView;
 
 namespace SchedulerExample.AppointmentPages {
     public partial class CustomTimeZoneSelectPage : ContentPage {
         readonly TimeZoneSelectViewModel viewModel;
-
+        
         public CustomTimeZoneSelectPage(TimeZoneSelectViewModel viewModel) {
-            InitializeComponent();
+            InitializeComponent();            
             this.viewModel = viewModel;
             this.BindingContext = viewModel;
         }
@@ -28,13 +29,11 @@ namespace SchedulerExample.AppointmentPages {
             Navigation.PopAsync();
         }
 
-        void OnSearchBarTextChanged(object sender, TextChangedEventArgs e) {
-            if (viewModel == null)
-                return;
-            if (viewModel.FilterTimeZonesCommand == null)
-                return;
-            if (viewModel.FilterTimeZonesCommand.CanExecute(e.NewTextValue)) {
-                viewModel.FilterTimeZonesCommand.Execute(e.NewTextValue);
+        void OnSearchBarTextChanged(object sender, System.EventArgs e) {
+            if (viewModel == null) return;
+            if (viewModel.FilterTimeZonesCommand == null) return;
+            if (viewModel.FilterTimeZonesCommand.CanExecute(this.searchBar.Text)) {
+                viewModel.FilterTimeZonesCommand.Execute(this.searchBar.Text);
             }
         }
     }
