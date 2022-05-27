@@ -1,4 +1,5 @@
 ﻿using DevExpress.XamarinForms.Scheduler;
+using DevExpress.XamarinForms.CollectionView;
 using Xamarin.Forms;
 
 namespace SchedulerExample.AppointmentPages {

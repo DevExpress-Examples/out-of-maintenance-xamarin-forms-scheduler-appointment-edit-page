@@ -261,16 +261,16 @@ namespace SchedulerExample.AppointmentPages {
             string action = await DialogService.DisplaySelectItemDialog(SelectAppointmentTypeTitle, CancelAction, EditOccurrenceAction, EditFutureOccurrencesAction, EditPatternAction);
             switch (action) {
                 case EditOccurrenceAction:
-                    PopulateActualAppointment();
+                PopulateActualAppointment();
                     return true;
                 case EditFutureOccurrencesAction:
-                    CreateNewPatternByOccurrence();
+                CreateNewPatternByOccurrence();
                     return true;
                 case EditPatternAction:
-                    PopulateActualAppointmentPattern();
+                PopulateActualAppointmentPattern();
                     return true;
                 case CancelAction:
-                    return false;
+                return false;
             }
             return false;
         }
@@ -557,7 +557,7 @@ namespace SchedulerExample.AppointmentPages {
         }
 
         bool CheckAllowRecurrence(DataSource dataSource) {
-            return !IsBoundMode(dataSource) || dataSource.AppointmentMappings.SupportsRecurrence;
+            return !(IsBoundMode(dataSource) && !dataSource.AppointmentMappings.SupportsRecurrence);
         }
 
         IEnumerable<TimeZoneInfoWrapper> GetTimeZones() {

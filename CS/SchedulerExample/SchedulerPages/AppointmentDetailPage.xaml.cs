@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Threading.Tasks;
-using DevExpress.XamarinForms.Core.Themes;
-using DevExpress.XamarinForms.Scheduler;
-using DevExpress.XamarinForms.Scheduler.Themes;
 using Xamarin.Forms;
+using DevExpress.XamarinForms.Core.Themes;
+using DevExpress.XamarinForms.Scheduler.Themes;
+using DevExpress.XamarinForms.Scheduler;
+using System.Threading.Tasks;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using XFApplication = Xamarin.Forms.Application;
 using XFPage = Xamarin.Forms.Page;
@@ -55,7 +55,7 @@ namespace SchedulerExample.AppointmentPages {
         protected override void OnDisappearing() {
             base.OnDisappearing();
             this.SizeChanged -= OnSizeChanged;
-        }
+        }        
 
         void OnSizeChanged(object sender, EventArgs e) {
             ApplySafeInsets();

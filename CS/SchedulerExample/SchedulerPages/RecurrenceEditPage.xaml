@@ -5,6 +5,7 @@
     xmlns:dxscht="clr-namespace:DevExpress.XamarinForms.Scheduler.Themes;assembly=DevExpress.XamarinForms.Scheduler"
     xmlns:dxschi="clr-namespace:DevExpress.XamarinForms.Scheduler.Internal;assembly=DevExpress.XamarinForms.Scheduler"
     xmlns:local="clr-namespace:SchedulerExample.AppointmentPages"
+    xmlns:dxe="clr-namespace:DevExpress.XamarinForms.Editors;assembly=DevExpress.XamarinForms.Editors"
     x:Class="SchedulerExample.AppointmentPages.CustomRecurrenceEditPage"
     Title="Repeat"
     BackgroundColor="{DynamicResource SchedulerBackgroundColor}">
@@ -14,7 +15,7 @@
                 <dxscht:CommonEditorStyles />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-        <Style x:Key="FormItemStyle" BasedOn="{StaticResource FormItemStyleBase}" TargetType="dxschi:RippleStackLayout"/>
+        <Style x:Key="FormItemStyle" BasedOn="{StaticResource FormItemStyleBase}" TargetType="Grid"/>
         <Style x:Key="ContainerStyle" BasedOn="{StaticResource ContainerStyleBase}" TargetType="StackLayout"/>
     </ContentPage.Resources>
     
@@ -25,26 +26,26 @@
     <ScrollView>
         <StackLayout x:Name="root" Style="{StaticResource RootContainerStyle}">
             
-            <dxschi:RippleStackLayout 
+            <Grid 
                 Style="{DynamicResource FormItemStyle}"
-                Tapped="OnFrequencyTapped">
+                ColumnDefinitions="*,Auto">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnFrequencyTapped"/>
+                </Grid.GestureRecognizers>
                 <Label
                     Text="Frequency"
+                    Grid.Column="0"
                     Style="{StaticResource FormItemPrimaryContent-Label}"
                     Margin="24,0,0,0"/>
                 
-                <dxschi:PickerEx
+                <dxe:ComboBoxEdit
                     x:Name="frequencyPicker"
+                    Grid.Column="1"
+                    DisplayMember="Name"
                     ItemsSource="{Binding RecurrenceTypes}"
-                    ItemDisplayBinding="{Binding Name}"
                     SelectedItem="{Binding SelectedRecurrenceType}"
                     Style="{StaticResource RepeatFrequencyPicker}"/>
-                    
-                <dxschi:IconImage
-                    Source="arrow_drop_down.png"
-                    Style="{StaticResource FormItemIcon-Secondary}"
-                    Margin="0,0,24,0"/>
-            </dxschi:RippleStackLayout>
+            </Grid>
             
             <StackLayout 
                 IsVisible="{Binding HasRecurrence}"
@@ -57,9 +58,10 @@
                     Style="{StaticResource RepeatTitle}"/>
                 <dxschi:InlineItemsView 
                     ItemsSource="{Binding RecurrenceTypes}"
+                    SelectedItem="{Binding SelectedRecurrenceType}"
                     Style="{StaticResource ContainerStyleBase}">
                     <dxschi:InlineItemsView.ItemTemplate>
-                        <local:RecurrenceSettingsViewSelector />
+                        <local:RecurrenceSettingsViewSelector/>
                     </dxschi:InlineItemsView.ItemTemplate>
                 </dxschi:InlineItemsView>
             

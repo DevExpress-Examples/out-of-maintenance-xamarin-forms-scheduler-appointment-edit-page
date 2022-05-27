@@ -9,6 +9,8 @@ namespace SchedulerExample
         public App()
         {
             DevExpress.XamarinForms.Scheduler.Initializer.Init();
+            DevExpress.XamarinForms.Editors.Initializer.Init();
+            DevExpress.XamarinForms.CollectionView.Initializer.Init();
             InitializeComponent();
 
             MainPage = new NavigationPage(new MainPage());

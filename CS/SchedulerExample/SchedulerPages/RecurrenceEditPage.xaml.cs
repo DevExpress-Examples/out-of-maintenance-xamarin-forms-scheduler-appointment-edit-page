@@ -1,8 +1,8 @@
 ﻿using System;
 using Xamarin.Forms;
-using DevExpress.XamarinForms.Core.Themes;
-using DevExpress.XamarinForms.Scheduler.Internal;
-using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+    using DevExpress.XamarinForms.Core.Themes;
+    using DevExpress.XamarinForms.Scheduler.Internal;
+    using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using DevExpress.XamarinForms.Scheduler;
 
 namespace SchedulerExample.AppointmentPages {
@@ -17,7 +17,7 @@ namespace SchedulerExample.AppointmentPages {
 
         public CustomRecurrenceEditPage(CustomRecurrenceEditViewModel viewModel, bool useThemeableToolbarIcons) {
             InitializeComponent();
-
+            
             this.viewModel = viewModel;
             BindingContext = viewModel;
 
@@ -53,7 +53,7 @@ namespace SchedulerExample.AppointmentPages {
 
         void ApplySafeInsets() {
             var safeInsets = On<Xamarin.Forms.PlatformConfiguration.iOS>().SafeAreaInsets();
-            this.RecreateStyleWithHorizontalInsets("FormItemStyle", "FormItemStyleBase", typeof(RippleStackLayout), safeInsets);
+            this.RecreateStyleWithHorizontalInsets("FormItemStyle", "FormItemStyleBase", typeof(Grid), safeInsets);
             this.RecreateStyleWithHorizontalInsets("ContainerStyle", "ContainerStyleBase", typeof(StackLayout), safeInsets);
             this.root.Margin = new Thickness(0, safeInsets.Top, 0, safeInsets.Bottom);
         }

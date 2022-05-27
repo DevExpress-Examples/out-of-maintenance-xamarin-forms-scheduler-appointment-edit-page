@@ -4,25 +4,30 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     xmlns:dxschi="clr-namespace:DevExpress.XamarinForms.Scheduler.Internal;assembly=DevExpress.XamarinForms.Scheduler"
     xmlns:dxscht="clr-namespace:DevExpress.XamarinForms.Scheduler.Themes;assembly=DevExpress.XamarinForms.Scheduler"
+    xmlns:dxe="clr-namespace:DevExpress.XamarinForms.Editors;assembly=DevExpress.XamarinForms.Editors"
+    xmlns:dxcv="clr-namespace:DevExpress.XamarinForms.CollectionView;assembly=DevExpress.XamarinForms.CollectionView"
     x:Class="SchedulerExample.AppointmentPages.CustomTimeZoneSelectPage"
     BackgroundColor="{DynamicResource SchedulerBackgroundColor}">
     <NavigationPage.TitleView>
-        <dxschi:EntryEx 
+        <dxe:TextEdit
             x:Name="searchBar"
-            Placeholder="Time Zone"
+            PlaceholderText="Time Zone"
             TextChanged="OnSearchBarTextChanged"
             TextColor="{DynamicResource SchedulerEditPageHeaderTextColor}"
-            FontAttributes="Bold"
+            TextFontAttributes="Bold"
             PlaceholderColor="{DynamicResource SchedulerEditPageHeaderPlaceholderColor}"
+            ClearIconVisibility="Never"
             BackgroundColor="Transparent"
             BorderColor="Transparent"
-            HighlightedBorderColor="Transparent"
-            HighlightedBackgroundColor="Transparent"
-            CursorColor="{StaticResource SchedulerEditPageAccentColor}">
-            <Entry.Margin>
-                <OnPlatform x:TypeArguments="Thickness" Android="0,0,15,0" iOS="0"/>
-            </Entry.Margin>
-        </dxschi:EntryEx>
+            FocusedBorderColor="Transparent">
+            <dxe:TextEdit.Margin>
+                <!-- It's a kind of magic to align the search bar's end and item separators.-->
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="Android">0,0,15,0</On>
+                    <On Platform="iOS">0</On>
+                </OnPlatform>
+            </dxe:TextEdit.Margin>
+        </dxe:TextEdit>
     </NavigationPage.TitleView>
    
     <ContentPage.Resources>
@@ -40,22 +45,17 @@
         </Style>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <ListView x:Name="timeZoneList"
+        <dxcv:DXCollectionView
                   ItemsSource="{Binding ActualTimeZoneInfos}"
                   SelectionMode="None"
-                  HasUnevenRows="true"
                   VerticalOptions="FillAndExpand"
-                  VerticalScrollBarVisibility="Never"
-                  SeparatorVisibility="None"
-                  ItemTapped="TimeZoneTapped"
+                  Tap="TimeZoneTapped"
                   BackgroundColor="Transparent">
-            <ListView.ItemTemplate>
+            <dxcv:DXCollectionView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
-                        <dxschi:TimeZoneView Style="{StaticResource TimeZone}"/>
-                    </ViewCell>
+                    <dxschi:TimeZoneView Style="{StaticResource TimeZone}"/>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </dxcv:DXCollectionView.ItemTemplate>
+        </dxcv:DXCollectionView>
     </ContentPage.Content>
 </ContentPage>

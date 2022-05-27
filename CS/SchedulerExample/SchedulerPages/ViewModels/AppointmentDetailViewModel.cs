@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DevExpress.XamarinForms.Scheduler;
 using DevExpress.XamarinForms.Scheduler.Internal;
@@ -153,22 +152,22 @@ namespace SchedulerExample.AppointmentPages {
                 case RemoveFutureOccurrencesAction:
                     if (appointment.RecurrenceIndex > 0) {
                         storage.StopPatternBeforeOccurrence(appointment);
-                    } else {
-                        RemovePattern();
-                    }
+                } else {
+                    RemovePattern();
+                }
                     return true;
                 case RemovePatternAction:
-                    RemovePattern();
+                RemovePattern();
                     return true;
                 default:
-                    return false;
+                return false;
             }
         }
 
         async Task<bool> RemoveNormalAppointment() {
             bool isConfirmed = await DialogService.DisplayAlertMessage(RemoveAppointmentTitle, null, AcceptAppointmentRemoveAction, CancelAppointmentRemoveAction);
             if (isConfirmed) {
-                storage.RemoveAppointment(appointment);
+                this.storage.RemoveAppointment(this.appointment);
             }
             return isConfirmed;
         }
